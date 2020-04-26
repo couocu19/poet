@@ -1,7 +1,6 @@
 package com.poets.dao;
 
 import com.poets.pojo.User;
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,5 +15,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User checkLogin(@Param("username") String username, @Param("password") String password);
+    User checkLogin(String accountNumber,String password);
+
+    int checkUnique(String accountNumber);
 }

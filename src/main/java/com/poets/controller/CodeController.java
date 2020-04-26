@@ -33,7 +33,6 @@ public class CodeController {
             ZhenziSmsClient client = new ZhenziSmsClient(apiUrl, appId, appSecret);
             String result = client.send(memPhone, "您的验证码为:" + code +
                     "验证码有效时间为5分钟，仅能使用一次！");
-
             json = JSONObject.parseObject(result);
             if (json.getIntValue("code")!=0){//发送短信失败
                 return  false;
