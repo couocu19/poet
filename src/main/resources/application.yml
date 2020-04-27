@@ -4,6 +4,10 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.75.132
+    port: 6379  #可不配，因为底层默认值为6379
+
 mybatis:
   typeAliasesPackage: com.poets.dao
   mapperLocations: classpath:mappers/*.xml
@@ -14,3 +18,7 @@ upload:
     access-key: U7iuJHsq5knZMU22Bd8JR11GpOcS7Z0i4ma3n5RM
     secret-key: IsRk8WjvituvSf6eER2HcxGgAPgJIlw2rP-Ld-pU
     bucket: bearchu
+
+server:
+  port: 8080
+
