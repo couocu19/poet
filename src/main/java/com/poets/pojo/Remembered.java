@@ -1,6 +1,8 @@
 package com.poets.pojo;
 
-public class Remembered {
+import java.io.Serializable;
+
+public class Remembered implements Serializable {
     private Integer id;
 
     private String poetId;

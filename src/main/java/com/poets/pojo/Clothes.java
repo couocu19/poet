@@ -1,6 +1,8 @@
 package com.poets.pojo;
 
-public class Clothes {
+import java.io.Serializable;
+
+public class Clothes implements Serializable {
     private Integer id;
 
     private Integer userId;
