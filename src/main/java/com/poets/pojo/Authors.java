@@ -1,15 +1,16 @@
 package com.poets.pojo;
 
-import java.io.Serializable;
+public class Authors {
+    private Integer mid;
 
-public class Authors implements Serializable {
     private String id;
 
     private String name;
 
     private String desc;
 
-    public Authors(String id, String name, String desc) {
+    public Authors(Integer mid, String id, String name, String desc) {
+        this.mid = mid;
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -17,6 +18,14 @@ public class Authors implements Serializable {
 
     public Authors() {
         super();
+    }
+
+    public Integer getMid() {
+        return mid;
+    }
+
+    public void setMid(Integer mid) {
+        this.mid = mid;
     }
 
     public String getId() {

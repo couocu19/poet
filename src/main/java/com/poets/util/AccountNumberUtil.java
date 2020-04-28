@@ -16,4 +16,17 @@ public class AccountNumberUtil {
         String result = String.valueOf(ran);
         return result;
     }
+
+    //获取一个随机id
+    public static int getRanNum(){
+        int min = 1;
+        int max = 311044;
+        int ran = (int)(Math.random()*(max-min)+min);
+        //emm因为这个范围的sid是无效的所以需要加一个判断
+        while(ran>=1097 && ran<=2490){
+            ran = (int)(Math.random()*(max-min)+min);
+        }
+        return ran;
+
+    }
 }

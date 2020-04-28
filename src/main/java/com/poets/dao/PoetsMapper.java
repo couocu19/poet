@@ -3,13 +3,13 @@ package com.poets.dao;
 import com.poets.pojo.Poets;
 
 public interface PoetsMapper {
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Integer sid);
 
     int insert(Poets record);
 
     int insertSelective(Poets record);
 
-    Poets selectByPrimaryKey(String id);
+    Poets selectByPrimaryKey(Integer sid);
 
     int updateByPrimaryKeySelective(Poets record);
 

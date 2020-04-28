@@ -114,7 +114,7 @@ public class UserController {
     }
 
 
-    //todo:七牛云的网站暂时无法登陆,之后看情况修改上传图片的接口
+
     private String uploadImage(MultipartFile file, HttpSession session) {
         String fileName = file.getOriginalFilename();
         String newFileNames = null;

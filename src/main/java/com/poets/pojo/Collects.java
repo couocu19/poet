@@ -1,8 +1,6 @@
 package com.poets.pojo;
 
-import java.io.Serializable;
-
-public class Collects implements Serializable {
+public class Collects {
     private Integer id;
 
     private String poetId;
@@ -11,11 +9,14 @@ public class Collects implements Serializable {
 
     private Integer type;
 
-    public Collects(Integer id, String poetId, Integer userId, Integer type) {
+    private Boolean isCanceled;
+
+    public Collects(Integer id, String poetId, Integer userId, Integer type, Boolean isCanceled) {
         this.id = id;
         this.poetId = poetId;
         this.userId = userId;
         this.type = type;
+        this.isCanceled = isCanceled;
     }
 
     public Collects() {
@@ -52,5 +53,13 @@ public class Collects implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Boolean getIsCanceled() {
+        return isCanceled;
+    }
+
+    public void setIsCanceled(Boolean isCanceled) {
+        this.isCanceled = isCanceled;
     }
 }

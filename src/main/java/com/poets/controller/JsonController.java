@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.poets.dao.AuthorsMapper;
 import com.poets.dao.PoetsMapper;
 import com.poets.pojo.Authors;
-import com.poets.pojo.Poets;
 import com.poets.util.Big5ToChinese;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -3,34 +3,38 @@
 <mapper namespace="com.poets.dao.PoetsMapper">
   <resultMap id="BaseResultMap" type="com.poets.pojo.Poets">
     <constructor>
-      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <idArg column="sid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="author" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="paragraphs" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, author, paragraphs, title
+    sid, id, author, paragraphs, title
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from poets
-    where id = #{id,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from poets
-    where id = #{id,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.poets.pojo.Poets">
-    insert into poets (id, author, paragraphs, 
-      title)
-    values (#{id,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{paragraphs,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR})
+    insert into poets (sid, id, author, 
+      paragraphs, title)
+    values (#{sid,jdbcType=INTEGER}, #{id,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{paragraphs,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.poets.pojo.Poets">
     insert into poets
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        sid,
+      </if>
       <if test="id != null">
         id,
       </if>
@@ -45,6 +49,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
@@ -62,6 +69,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.poets.pojo.Poets">
     update poets
     <set>
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
       <if test="author != null">
         author = #{author,jdbcType=VARCHAR},
       </if>
@@ -72,13 +82,14 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.poets.pojo.Poets">
     update poets
-    set author = #{author,jdbcType=VARCHAR},
+    set id = #{id,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
       paragraphs = #{paragraphs,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
   </update>
 </mapper>

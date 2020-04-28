@@ -7,10 +7,11 @@
       <arg column="poet_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_canceled" javaType="java.lang.Boolean" jdbcType="BIT" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, poet_id, user_id, type
+    id, poet_id, user_id, type, is_canceled
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,9 +25,9 @@
   </delete>
   <insert id="insert" parameterType="com.poets.pojo.Collects">
     insert into collects (id, poet_id, user_id, 
-      type)
+      type, is_canceled)
     values (#{id,jdbcType=INTEGER}, #{poetId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{type,jdbcType=INTEGER})
+      #{type,jdbcType=INTEGER}, #{isCanceled,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.poets.pojo.Collects">
     insert into collects
@@ -43,6 +44,9 @@
       <if test="type != null">
         type,
       </if>
+      <if test="isCanceled != null">
+        is_canceled,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -56,6 +60,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="isCanceled != null">
+        #{isCanceled,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -71,6 +78,9 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="isCanceled != null">
+        is_canceled = #{isCanceled,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -78,7 +88,8 @@
     update collects
     set poet_id = #{poetId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      is_canceled = #{isCanceled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

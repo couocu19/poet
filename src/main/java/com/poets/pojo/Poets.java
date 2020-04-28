@@ -1,8 +1,8 @@
 package com.poets.pojo;
 
-import java.io.Serializable;
+public class Poets {
+    private Integer sid;
 
-public class Poets implements Serializable {
     private String id;
 
     private String author;
@@ -11,7 +11,8 @@ public class Poets implements Serializable {
 
     private String title;
 
-    public Poets(String id, String author, String paragraphs, String title) {
+    public Poets(Integer sid, String id, String author, String paragraphs, String title) {
+        this.sid = sid;
         this.id = id;
         this.author = author;
         this.paragraphs = paragraphs;
@@ -20,6 +21,14 @@ public class Poets implements Serializable {
 
     public Poets() {
         super();
+    }
+
+    public Integer getSid() {
+        return sid;
+    }
+
+    public void setSid(Integer sid) {
+        this.sid = sid;
     }
 
     public String getId() {
