@@ -8,7 +8,7 @@ spring:
   redis:
     host: 118.31.12.175
     port: 6379  #可不配，因为底层默认值为6379
-
+  #spring.resources.static-locations=classpath:/
 mybatis:
   typeAliasesPackage: com.poets.dao
   mapperLocations: classpath:mappers/*.xml
@@ -22,4 +22,6 @@ upload:
 
 server:
   port: 8081
+
+
 

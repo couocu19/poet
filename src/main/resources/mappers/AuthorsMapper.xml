@@ -10,7 +10,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    mid, id, name, desc
+    mid, id, name, `desc`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -81,4 +81,12 @@
       desc = #{desc,jdbcType=VARCHAR}
     where mid = #{mid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByKeyWords" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from authors
+    where name = #{key}
+  </select>
+
 </mapper>

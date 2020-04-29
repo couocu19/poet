@@ -2,6 +2,8 @@ package com.poets.dao;
 
 import com.poets.pojo.Authors;
 
+import java.util.List;
+
 public interface AuthorsMapper {
     int deleteByPrimaryKey(Integer mid);
 
@@ -14,4 +16,6 @@ public interface AuthorsMapper {
     int updateByPrimaryKeySelective(Authors record);
 
     int updateByPrimaryKey(Authors record);
+
+    List<Authors> selectByKeyWords(String key);
 }

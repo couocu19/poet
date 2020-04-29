@@ -16,9 +16,9 @@ public class QiniuUploadImageUtil {
     //secretKey
     private static String secretKey ="IsRk8WjvituvSf6eER2HcxGgAPgJIlw2rP-Ld-pU";
     //储存空间名
-    private static String bucket ="poets2020";
+    private static String bucket ="bearchu";
     //外链URL前缀
-    private static String fronturl = "http://idv093d.qiniudns.com/";
+    private static String fronturl = "http://icou.life/";
 
 
     /**

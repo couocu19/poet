@@ -92,4 +92,25 @@
       title = #{title,jdbcType=VARCHAR}
     where sid = #{sid,jdbcType=INTEGER}
   </update>
+
+   <!--  todo:修改限制条件 -->
+  <select id="selectByKey" resultMap="BaseResultMap" parameterType="string">
+    select
+    <include refid="Base_Column_List"/>
+    from poets
+    where title like '%${key}%' or paragraphs like '%${key}%'
+    limit 30
+  </select>
+
+  <select id="selectByKeyName" resultMap="BaseResultMap" parameterType="string">
+    select
+    <include refid="Base_Column_List"/>
+    from poets
+    where author = #{key}
+    limit 20
+  </select>
+
+
+
+
 </mapper>
