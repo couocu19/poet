@@ -3,7 +3,7 @@ package com.poets.pojo;
 public class Remembered {
     private Integer id;
 
-    private String poetId;
+    private Integer poetId;
 
     private Integer userId;
 
@@ -11,7 +11,7 @@ public class Remembered {
 
     private Boolean isCanceled;
 
-    public Remembered(Integer id, String poetId, Integer userId, Integer type, Boolean isCanceled) {
+    public Remembered(Integer id, Integer poetId, Integer userId, Integer type, Boolean isCanceled) {
         this.id = id;
         this.poetId = poetId;
         this.userId = userId;
@@ -31,12 +31,12 @@ public class Remembered {
         this.id = id;
     }
 
-    public String getPoetId() {
+    public Integer getPoetId() {
         return poetId;
     }
 
-    public void setPoetId(String poetId) {
-        this.poetId = poetId == null ? null : poetId.trim();
+    public void setPoetId(Integer poetId) {
+        this.poetId = poetId;
     }
 
     public Integer getUserId() {

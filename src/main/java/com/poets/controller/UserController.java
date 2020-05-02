@@ -2,6 +2,7 @@ package com.poets.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.poets.pojo.Clothes;
 import com.poets.pojo.User;
 import com.poets.service.UserService;
 import com.poets.util.QiniuUploadImageUtil;
@@ -112,9 +113,6 @@ public class UserController {
         user.setHeader(fileUrl);
         return userService.update(user);
     }
-
-
-
     private String uploadImage(MultipartFile file, HttpSession session) {
         String fileName = file.getOriginalFilename();
         String newFileNames = null;
@@ -134,6 +132,29 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "用户添加装扮", notes = "将装扮数据存入数据库")
+    @RequestMapping("/addClothes.do")
+    public Map<String,Object> addCloth(HttpSession session, Clothes clothes){
+        Map<String, Object> map = new HashMap<>();
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            map.put("msg", "当前用户未登录");
+            return map;
+        }
+        return userService.addClothes(clothes);
+    }
+
+    @ApiOperation(value = "用户删除装扮", notes = "将某一个装扮列表删除")
+    @RequestMapping("/deleteClothes.do")
+    public Map<String,Object> deleteCloth(HttpSession session,Integer id){
+        Map<String, Object> map = new HashMap<>();
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            map.put("msg", "当前用户未登录");
+            return map;
+        }
+        return userService.deleteClothes(id);
+    }
 
 
 }

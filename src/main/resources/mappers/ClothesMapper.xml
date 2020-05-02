@@ -32,7 +32,7 @@
       #{dress,jdbcType=INTEGER}, #{background,jdbcType=INTEGER}, #{face,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.poets.pojo.Clothes">
+  <insert id="insertSelective" parameterType="com.poets.pojo.Clothes" keyProperty="id" useGeneratedKeys="true">
     insert into clothes
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

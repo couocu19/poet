@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.poets.pojo.Remembered">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="poet_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="poet_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="type" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="is_canceled" javaType="java.lang.Boolean" jdbcType="BIT" />
@@ -26,7 +26,7 @@
   <insert id="insert" parameterType="com.poets.pojo.Remembered">
     insert into remembered (id, poet_id, user_id, 
       type, is_canceled)
-    values (#{id,jdbcType=INTEGER}, #{poetId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{poetId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER}, #{isCanceled,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.poets.pojo.Remembered">
@@ -53,7 +53,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="poetId != null">
-        #{poetId,jdbcType=VARCHAR},
+        #{poetId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -70,7 +70,7 @@
     update remembered
     <set>
       <if test="poetId != null">
-        poet_id = #{poetId,jdbcType=VARCHAR},
+        poet_id = #{poetId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -86,10 +86,24 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.poets.pojo.Remembered">
     update remembered
-    set poet_id = #{poetId,jdbcType=VARCHAR},
+    set poet_id = #{poetId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
       is_canceled = #{isCanceled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByPidAndUid" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from remembered
+    where poet_id = #{poetId} and user_id = #{userId}
+  </select>
+
+  <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from remembered
+    where user_id = #{userId} and is_canceled!=0
+  </select>
 </mapper>

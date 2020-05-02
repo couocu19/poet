@@ -1,6 +1,8 @@
 package com.poets.service.impl;
 
+import com.poets.dao.ClothesMapper;
 import com.poets.dao.UserMapper;
+import com.poets.pojo.Clothes;
 import com.poets.pojo.User;
 import com.poets.service.UserService;
 import com.poets.util.AccountNumberUtil;
@@ -17,6 +19,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ClothesMapper clothesMapper;
 
     //todo:之后补充功能:一个手机号最多绑定两个账号
     public Map<String,Object> register(String memPhone,String password){
@@ -79,6 +83,30 @@ public class UserServiceImpl implements UserService {
         map.put("msg","error");
         return map;
 
+    }
+
+    public Map<String,Object> addClothes(Clothes clothes){
+        Map<String,Object> map = new HashMap<>();
+        int rowCount = clothesMapper.insertSelective(clothes);
+        if(rowCount>0){
+            map.put("msg","ok");
+            map.put("cloth",clothes);
+            return map;
+        }
+        map.put("msg","error");
+        return map;
+    }
+
+    public Map<String,Object> deleteClothes(Integer id){
+        Map<String,Object> map = new HashMap<>();
+        int rowCount = clothesMapper.deleteByPrimaryKey(id);
+        if(rowCount>0){
+            map.put("msg","ok") ;
+            return map;
+        }
+
+        map.put("msg","error");
+        return map;
     }
 
 }
