@@ -133,7 +133,8 @@ public class PoetServiceImpl implements PoetService {
             int max = 11;
             int ran = (int)(Math.random()*(max-min)+min);
             String image = String.valueOf(ran)+".JPG";
-            String header = "http://localhost:8081/images/"+image;
+            String header = "http://118.31.12.175:8081/images/"+image;
+           // String header = "http://localhost:8081/images/"+image;
             authorVo.setHeader(header);
             list.add(authorVo);
         }

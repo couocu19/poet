@@ -2,6 +2,7 @@ package com.poets.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.poets.dao.UserMapper;
 import com.poets.pojo.Clothes;
 import com.poets.pojo.User;
 import com.poets.service.UserService;
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private CodeController codeController;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @ApiOperation(value = "注册账号", notes = "根据手机号获取验证码以及设置的密码注册")
     @RequestMapping("/register.do")
@@ -111,7 +115,15 @@ public class UserController {
         //记得要有id
         user.setId(currentUser.getId());
         user.setHeader(fileUrl);
-        return userService.update(user);
+        int rowCount = userMapper.updateByPrimaryKeySelective(user);
+        if(rowCount>0){
+            map.put("msg","ok");
+            map.put("userId",currentUser.getId());
+            map.put("url",fileUrl);
+            return map;
+        }
+        map.put("msg","error");
+        return map;
     }
     private String uploadImage(MultipartFile file, HttpSession session) {
         String fileName = file.getOriginalFilename();
@@ -141,6 +153,9 @@ public class UserController {
             map.put("msg", "当前用户未登录");
             return map;
         }
+        Integer userId = currentUser.getId();
+        System.out.println(userId);
+        clothes.setUserId(userId);
         return userService.addClothes(clothes);
     }
 
@@ -155,6 +170,5 @@ public class UserController {
         }
         return userService.deleteClothes(id);
     }
-
-
+    
 }

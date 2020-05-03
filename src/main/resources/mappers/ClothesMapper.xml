@@ -105,4 +105,11 @@
       face = #{face,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByMap" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from clothes where user_id = #{userId} and hair = #{hair}
+    and dress = #{dress} and background = #{back} and face = #{face}
+  </select>
 </mapper>
