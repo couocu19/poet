@@ -91,7 +91,7 @@ public class UserController {
         return userService.update(user);
     }
 
-    @ApiOperation(value = "修改个人信息", notes = "用户修改用户名/个性签名")
+    @ApiOperation(value = "上传/修改头像", notes = "用户修改用户名/个性签名")
     @RequestMapping("/upload_header.do")
     public Map<String, Object> uploadHeader(MultipartFile file, HttpSession session) {
         Map<String, Object> map = new HashMap<>();
@@ -170,5 +170,5 @@ public class UserController {
         }
         return userService.deleteClothes(id);
     }
-    
+
 }

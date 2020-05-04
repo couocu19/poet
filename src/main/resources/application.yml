@@ -22,6 +22,9 @@ upload:
 
 server:
   port: 8081
+  session:
+    timeout:
+      7200
 
 
 
