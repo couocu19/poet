@@ -58,6 +58,7 @@ public class UserController {
         if (result.get("msg") == "ok") {
             User user = (User) result.get("currentUser");
             httpSession.setAttribute("currentUser", user);
+            System.out.println(httpSession.getId());
         }
         return result;
     }

@@ -1,8 +1,6 @@
 package com.poets.controller;
 
-//import org.java_websocket.server.WebSocketServer;
 import com.poets.WebSocketServer;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,13 +33,6 @@ public class SystemController {
             e.printStackTrace();
         }
         return result;
-    }
-
-    @RequestMapping(value="/socketTest",method= RequestMethod.GET)
-    @ApiOperation("socket发送消息")
-    public void queryUser() throws Exception{
-        String s = "aaa";
-        WebSocketServer.sendInfo("test发送消息",s);
     }
 
 }
