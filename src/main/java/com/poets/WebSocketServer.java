@@ -1,6 +1,8 @@
 package com.poets;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -24,9 +26,9 @@ public class WebSocketServer {
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
-
     //接收sid
     private String sid="" ;
+    private Logger log = LoggerFactory.getLogger(WebSocketServer.class);
 /**
  * 连接建立成功调用的方法*/
     @OnOpen
@@ -92,16 +94,22 @@ public class WebSocketServer {
  * 群发自定义消息
  * */
     public static void sendInfo(String message,@PathParam("sid") String sid) throws IOException {
-        log.info("推送消息到窗口"+sid+"，推送内容:"+message);
+        WebSocketServer ws = new WebSocketServer();
+
+        ws.log.info("推送消息到窗口"+sid+"，推送内容:"+message);
+        System.out.println(message);
         for (WebSocketServer item : webSocketSet) {
             try {
                 //这里可以设定只推送给这个sid的，为null则全部推送
                 if(sid==null) {
                     item.sendMessage(message);
+                    System.out.println("1ok");
                 }else if(item.sid.equals(sid)){
                     item.sendMessage(message);
+                    System.out.println("2ok");
                 }
             } catch (IOException e) {
+                System.out.println("推送失败");
                 continue;
             }
         }

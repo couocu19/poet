@@ -1,6 +1,7 @@
 package com.poets.controller;
 
 
+import com.poets.WebSocketServer;
 import com.poets.dao.RememberedMapper;
 import com.poets.dao.UserMapper;
 import com.poets.pojo.Remembered;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +76,12 @@ public class CollectController {
             int row = userMapper.updateByPrimaryKeySelective(user);
             if(row>0){
                 map.put("升级",newGrade);
+                String id = String.valueOf(userId);
+                try {
+                    WebSocketServer.sendInfo("恭喜你升到"+newGrade+"级",id);
+                } catch (IOException e) {
+                    System.out.println("发送推送失败");
+                }
             }
         }
         return map;
