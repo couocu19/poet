@@ -34,7 +34,7 @@
       #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{header,jdbcType=VARCHAR}, 
       #{signature,jdbcType=VARCHAR}, #{grades,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.poets.pojo.User">
+  <insert id="insertSelective" parameterType="com.poets.pojo.User" keyProperty="id" useGeneratedKeys="true">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

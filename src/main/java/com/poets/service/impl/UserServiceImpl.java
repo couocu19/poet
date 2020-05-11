@@ -8,6 +8,7 @@ import com.poets.service.UserService;
 import com.poets.util.AccountNumberUtil;
 import com.poets.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -17,14 +18,22 @@ import java.util.Map;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
+    public static final String CACHE_KEY_USER = "user:";
+
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private ClothesMapper clothesMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+
+
     //todo:之后补充功能:一个手机号最多绑定两个账号
     public Map<String,Object> register(String memPhone,String password){
         User user = new User();
+
         //生成用户的账号
         String phoneLast4 = memPhone.substring(7,11);
         String ran = AccountNumberUtil.getRan();
@@ -46,6 +55,11 @@ public class UserServiceImpl implements UserService {
 
         if(rowCount>0){
             System.out.println("插入成功");
+            //缓存key
+            String key = CACHE_KEY_USER+user.getId();
+            System.out.println(key);
+
+            redisTemplate.opsForValue().set(key,user);
             user.setPassword(null);
             map.put("msg","ok");
             map.put("accountNumber",account);

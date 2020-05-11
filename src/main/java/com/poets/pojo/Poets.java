@@ -1,6 +1,8 @@
 package com.poets.pojo;
 
-public class Poets {
+import java.io.Serializable;
+
+public class Poets implements Serializable {
     private Integer sid;
 
     private String id;
