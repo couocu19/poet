@@ -38,7 +38,6 @@ public class PoetController {
         return poetService.selectByKey(key);
     }
 
-
     @RequestMapping("/get_author.do")
     @ApiOperation(value = "查看诗人信息", notes = "根据id查看诗人")
     public Map<String,Object> getAuthor(Integer id){
