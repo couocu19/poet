@@ -166,7 +166,8 @@ public class PoetServiceImpl implements PoetService {
                 return map;
             }
         }
-        map.put("msg", "null");
+        map.put("msg", "ok");
+        map.put("msg", authors);
         return map;
     }
 
@@ -176,7 +177,6 @@ public class PoetServiceImpl implements PoetService {
         ValueOperations<String,Poets> operations = redisTemplate.opsForValue();
         String key = CACHE_KEY_Poet+id;
         Poets poets = operations.get(key);
-
         if(poets == null) {
             poets = poetsMapper.selectByPrimaryKey(id);
             if (poets != null) {
@@ -187,7 +187,8 @@ public class PoetServiceImpl implements PoetService {
                 return map;
             }
         }
-        map.put("msg","null");
+        map.put("msg", "ok");
+        map.put("poet",poets);
         return map;
     }
 
