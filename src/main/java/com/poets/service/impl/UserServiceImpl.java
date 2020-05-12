@@ -8,17 +8,19 @@ import com.poets.service.UserService;
 import com.poets.util.AccountNumberUtil;
 import com.poets.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
+import com.poets.RedisAutoConfiguration.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
     public static final String CACHE_KEY_USER = "user:";
+
 
     @Autowired
     private UserMapper userMapper;
@@ -87,9 +89,16 @@ public class UserServiceImpl implements UserService {
 
     public Map<String,Object> update(User user){
         Map<String,Object> map = new HashMap<>();
+        //先直接修改数据库
         int rowCount = userMapper.updateByPrimaryKeySelective(user);
         if(rowCount>0){
+            //再修改缓存
+            //缓存key
+            String key = CACHE_KEY_USER+user.getId();
             User current = userMapper.selectByPrimaryKey(user.getId());
+            //修改也是用set命令，redis没有update操作，都是重新设置新值
+            redisTemplate.opsForValue().set(key,current);
+
             current.setPassword(null);
             map.put("msg","ok");
             map.put("user",current);
@@ -106,7 +115,6 @@ public class UserServiceImpl implements UserService {
             map.put("msg","当前装扮已存在~");
             return map;
         }
-
         int rowCount = clothesMapper.insertSelective(clothes);
         if(rowCount>0){
             map.put("msg","ok");

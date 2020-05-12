@@ -10,6 +10,8 @@ import com.poets.vo.AuthorVo;
 import com.poets.vo.PoetVo;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,11 +22,15 @@ import java.util.Map;
 @Service("poetService")
 public class PoetServiceImpl implements PoetService {
 
-    @Autowired
-    private PoetsMapper poetsMapper;
+    public static final String CACHE_KEY_Poet = "poet:";
+    public static final String CACHE_KEY_Author = "author:";
 
     @Autowired
+    private PoetsMapper poetsMapper;
+    @Autowired
     private AuthorsMapper authorsMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     public Map<String,Object> ranShare(Integer rid){
         Map<String,Object> map = new HashMap<>();
@@ -141,26 +147,45 @@ public class PoetServiceImpl implements PoetService {
         return list;
     }
 
+
     public Map<String,Object> getAuthor(Integer id){
         Map<String,Object> map = new HashMap<>();
-        Authors authors = authorsMapper.selectByPrimaryKey(id);
-        if(authors!=null) {
-            map.put("msg", "ok");
-            map.put("author", authors);
-            return map;
+        ValueOperations<String,Authors> operations = redisTemplate.opsForValue();
+        //缓存key
+        String key = CACHE_KEY_Author+id;
+        //先去redis查,如果查到直接返回,如果没有的话直接去数据库查
+        Authors authors = operations.get(key);
+
+        //redis中无数据,去数据库捞数据
+        if(authors == null) {
+            authors = authorsMapper.selectByPrimaryKey(id);
+            if (authors != null) {
+                operations.set(key,authors);
+                map.put("msg", "ok");
+                map.put("author", authors);
+                return map;
+            }
         }
-            map.put("msg","null");
-            return map;
+        map.put("msg", "null");
+        return map;
     }
+
 
     public Map<String,Object> getPoet(Integer id){
         Map<String,Object> map = new HashMap<>();
-        Poets poets = poetsMapper.selectByPrimaryKey(id);
-        if(poets!=null) {
-            PoetVo poetVo = assemble(poets);
-            map.put("msg", "ok");
-            map.put("poet", poetVo);
-            return map;
+        ValueOperations<String,Poets> operations = redisTemplate.opsForValue();
+        String key = CACHE_KEY_Poet+id;
+        Poets poets = operations.get(key);
+
+        if(poets == null) {
+            poets = poetsMapper.selectByPrimaryKey(id);
+            if (poets != null) {
+                operations.set(key,poets);
+                PoetVo poetVo = assemble(poets);
+                map.put("msg", "ok");
+                map.put("poet", poetVo);
+                return map;
+            }
         }
         map.put("msg","null");
         return map;
