@@ -167,7 +167,7 @@ public class PoetServiceImpl implements PoetService {
             }
         }
         map.put("msg", "ok");
-        map.put("msg", authors);
+        map.put("author", authors);
         return map;
     }
 
