@@ -26,16 +26,31 @@ public class PoetController {
 
     @RequestMapping("/ran_share.do")
     @ApiOperation(value = "每日分享", notes = "每次刷新获取新的诗词一首")
-    public Map<String,Object> randomShare(){
+    public Map<String,Object> randomShare(HttpSession session){
+        User user = (User) session.getAttribute("currentUser");
+        Integer uid;
+        if(user == null){
+            uid = 0;
+        }else{
+            uid = user.getId();
+        }
         int ran = AccountNumberUtil.getRanNum();
-        return poetService.ranShare(ran);
+        return poetService.ranShare(ran,uid);
 
     }
 
     @RequestMapping("/select.do")
     @ApiOperation(value = "诗词/诗人查询", notes = "根据关键字模糊查询")
-    public Map<String,Object> selectByKeyWords(String key){
-        return poetService.selectByKey(key);
+    public Map<String,Object> selectByKeyWords(String key,HttpSession session){
+        User user = (User) session.getAttribute("currentUser");
+        Integer uid;
+        if(user == null){
+            uid = 0;
+        }else{
+            uid = user.getId();
+        }
+        System.out.println(uid);
+        return poetService.selectByKey(key,uid);
     }
 
     @RequestMapping("/get_author.do")
@@ -46,8 +61,16 @@ public class PoetController {
 
     @RequestMapping("/get_poet.do")
     @ApiOperation(value = "查看诗词信息", notes = "根据id查看诗词信息")
-    public Map<String,Object> getPoet(Integer id){
-        return poetService.getPoet(id);
+    public Map<String,Object> getPoet(Integer id,HttpSession session){
+        User user = (User) session.getAttribute("currentUser");
+        Integer uid;
+        if(user == null){
+            uid = 0;
+        }else{
+            uid = user.getId();
+        }
+
+        return poetService.getPoet(id,uid);
 
     }
 

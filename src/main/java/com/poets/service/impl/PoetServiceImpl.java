@@ -2,8 +2,10 @@ package com.poets.service.impl;
 
 import com.alibaba.fastjson.support.odps.udf.CodecCheck;
 import com.poets.dao.AuthorsMapper;
+import com.poets.dao.CollectsMapper;
 import com.poets.dao.PoetsMapper;
 import com.poets.pojo.Authors;
+import com.poets.pojo.Collects;
 import com.poets.pojo.Poets;
 import com.poets.service.PoetService;
 import com.poets.vo.AuthorVo;
@@ -30,19 +32,20 @@ public class PoetServiceImpl implements PoetService {
     @Autowired
     private AuthorsMapper authorsMapper;
     @Autowired
+    private CollectsMapper collectsMapper;
+    @Autowired
     private RedisTemplate redisTemplate;
 
-    public Map<String,Object> ranShare(Integer rid){
+    public Map<String,Object> ranShare(Integer rid,Integer uid){
         Map<String,Object> map = new HashMap<>();
         if(rid == null){
             map.put("msg","error");
             return map;
         }
-
         Poets poets = poetsMapper.selectByPrimaryKey(rid);
         if(poets!=null){
             map.put("msg","ok");
-            PoetVo poetVo = assemble(poets);
+            PoetVo poetVo = assemble(poets,uid);
             map.put("poet",poetVo);
             return map;
         }
@@ -50,9 +53,24 @@ public class PoetServiceImpl implements PoetService {
         return map;
     }
 
-    private PoetVo assemble(Poets poets){
+    private PoetVo assemble(Poets poets,Integer uid){
         PoetVo poetVo = new PoetVo();
         int id = poets.getSid();
+        //标记当前用户是否收藏了该诗词
+        if(uid == 0){
+            poetVo.setCollected(false);
+            System.out.println("ok0");
+        }else {
+            Collects collects = collectsMapper.selectByUidAndPid1(uid, id);
+            if (collects != null) {
+                poetVo.setCollected(true);
+                System.out.println("ok1");
+            } else {
+                poetVo.setCollected(false);
+                System.out.println("ok2");
+            }
+        }
+
         if(id>=1 && id<=253900){
             poetVo.setDynasty("宋代");
         }else{
@@ -67,7 +85,7 @@ public class PoetServiceImpl implements PoetService {
         return poetVo;
     }
 
-    public Map<String,Object>selectByKey(String key){
+    public Map<String,Object>selectByKey(String key,Integer uid){
         List<Authors> authors = authorsMapper.selectByKeyWords(key);
         List<Poets> poets;
         if(authors.size() == 0) {
@@ -81,19 +99,30 @@ public class PoetServiceImpl implements PoetService {
             map.put("msg","暂时没查到任何信息哦~");
         }
         List<AuthorVo> authorVos = assembleAuthor(authors);
-        List<PoetVo> poetVos = assembleList(poets);
+        List<PoetVo> poetVos = assembleList(poets,uid);
         map.put("msg","ok");
         map.put("author",authorVos);
         map.put("poets",poetVos);
         return map;
     }
 
-    private List<PoetVo> assembleList(List<Poets> poets){
+    private List<PoetVo> assembleList(List<Poets> poets,Integer uid){
         List<PoetVo> poetVos = new ArrayList<>();
         PoetVo poetVo = null;
+        System.out.println(uid);
         for(Poets poet:poets){
             poetVo = new PoetVo();
             int id = poet.getSid();
+            if(uid == 0){
+                poetVo.setCollected(false);
+            }else {
+                Collects collects = collectsMapper.selectByUidAndPid1(uid, id);
+                if (collects != null) {
+                    poetVo.setCollected(true);
+                } else {
+                    poetVo.setCollected(false);
+                }
+            }
             if(id>=1 && id<=253900){
                 poetVo.setDynasty("宋代");
             }else{
@@ -172,7 +201,7 @@ public class PoetServiceImpl implements PoetService {
     }
 
 
-    public Map<String,Object> getPoet(Integer id){
+    public Map<String,Object> getPoet(Integer id,Integer uid){
         Map<String,Object> map = new HashMap<>();
         ValueOperations<String,Poets> operations = redisTemplate.opsForValue();
         String key = CACHE_KEY_Poet+id;
@@ -181,14 +210,16 @@ public class PoetServiceImpl implements PoetService {
             poets = poetsMapper.selectByPrimaryKey(id);
             if (poets != null) {
                 operations.set(key,poets);
-                PoetVo poetVo = assemble(poets);
+                PoetVo poetVo = assemble(poets,uid);
                 map.put("msg", "ok");
+                System.out.println(poetVo.getCollected());
                 map.put("poet", poetVo);
                 return map;
             }
         }
         map.put("msg", "ok");
-        map.put("poet",poets);
+        PoetVo poetVo1 = assemble(poets,uid);
+        map.put("poet",poetVo1);
         return map;
     }
 

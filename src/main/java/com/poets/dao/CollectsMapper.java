@@ -20,5 +20,7 @@ public interface CollectsMapper {
 
     Collects selectByUidAndPid(Integer userId, Integer poetId);
 
+    Collects selectByUidAndPid1(Integer userId,Integer poetId);
+
     List<Collects> selectByUserId(Integer userId);
 }
