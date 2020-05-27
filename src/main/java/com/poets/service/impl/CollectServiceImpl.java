@@ -186,6 +186,7 @@ public class CollectServiceImpl implements CollectService {
         PoetVo poetVo = null;
         for(Poets poet:poets){
             poetVo = new PoetVo();
+            poetVo.setCollected(true);
             int id = poet.getSid();
             if(id>=1 && id<=253900){
                 poetVo.setDynasty("宋代");
