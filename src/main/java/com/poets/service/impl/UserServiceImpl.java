@@ -111,10 +111,15 @@ public class UserServiceImpl implements UserService {
 
     public Map<String,Object> addClothes(Clothes clothes){
         Map<String,Object> map = new HashMap<>();
-        if(!checkExist(clothes)){
-            map.put("msg","当前装扮已存在~");
-            return map;
+        Integer uid = clothes.getUserId();
+        Clothes clothes1 = clothesMapper.selectByUid(uid);
+        if(clothes1!=null){
+            clothesMapper.deleteByPrimaryKey(clothes1.getId());
         }
+//        if(!checkExist(clothes)){
+//            map.put("msg","当前装扮已存在~");
+//            return map;
+//        }
         int rowCount = clothesMapper.insertSelective(clothes);
         if(rowCount>0){
             map.put("msg","ok");
@@ -123,6 +128,21 @@ public class UserServiceImpl implements UserService {
         }
         map.put("msg","error");
         return map;
+    }
+
+    public Map<String,Object> getCloth(Integer uid){
+        Map<String,Object> map = new HashMap<>();
+        Clothes clothes = clothesMapper.selectByUid(uid);
+        if(clothes == null){
+            map.put("msg","null");
+            return map;
+        }
+
+        map.put("msg","ok");
+        map.put("cloth",clothes);
+        return map;
+
+
     }
 
     private boolean checkExist(Clothes clothes){

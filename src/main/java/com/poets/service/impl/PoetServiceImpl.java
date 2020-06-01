@@ -109,9 +109,16 @@ public class PoetServiceImpl implements PoetService {
     private List<PoetVo> assembleList(List<Poets> poets,Integer uid){
         List<PoetVo> poetVos = new ArrayList<>();
         PoetVo poetVo = null;
+        int min = 1;
+        int max = 11;
         System.out.println(uid);
         for(Poets poet:poets){
             poetVo = new PoetVo();
+            int ran = (int)(Math.random()*(max-min)+min);
+            String image = String.valueOf(ran)+".JPG";
+            String header = "http://118.31.12.175:8081/images/"+image;
+            poetVo.setHeader(header);
+
             int id = poet.getSid();
             if(uid == 0){
                 poetVo.setCollected(false);

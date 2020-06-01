@@ -1,6 +1,5 @@
 package com.poets.vo;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class PoetVo {
     private int sid;
@@ -9,15 +8,25 @@ public class PoetVo {
     private String paragraphs;
     private String dynasty;
     private Boolean isCollected;
+    private String header;
 
 
-    public PoetVo(int sid, String author, String title, String paragraphs, String dynasty, Boolean isCollected) {
+    public PoetVo(int sid, String author, String title, String paragraphs, String dynasty, Boolean isCollected, String header) {
         this.sid = sid;
         this.author = author;
         this.title = title;
         this.paragraphs = paragraphs;
         this.dynasty = dynasty;
         this.isCollected = isCollected;
+        this.header = header;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     public Boolean getCollected() {

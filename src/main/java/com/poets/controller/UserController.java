@@ -160,6 +160,20 @@ public class UserController {
         return userService.addClothes(clothes);
     }
 
+    @ApiOperation(value = "用户获取装扮", notes = "用户获取自己的装吧")
+    @RequestMapping("/getClothes.do")
+    public Map<String,Object> getCloth(HttpSession session){
+        Map<String, Object> map = new HashMap<>();
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            map.put("msg", "当前用户未登录");
+            return map;
+        }
+        Integer uid = currentUser.getId();
+        return userService.getCloth(uid);
+
+    }
+
     @ApiOperation(value = "用户删除装扮", notes = "将某一个装扮列表删除")
     @RequestMapping("/deleteClothes.do")
     public Map<String,Object> deleteCloth(HttpSession session,Integer id){
