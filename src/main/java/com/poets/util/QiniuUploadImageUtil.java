@@ -44,7 +44,7 @@ public class QiniuUploadImageUtil {
             try {
                 System.err.println(r.bodyString());
             } catch (QiniuException ex2) {
-                // ignore
+
             }
         }
         return null;

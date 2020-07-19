@@ -106,6 +106,7 @@ public class UserController {
             return map;
         }
         String fileUrl = uploadImage(file, session);
+
         if (fileUrl.equals("error")) {
             map.put("msg", "error-file");
             return map;
@@ -126,6 +127,7 @@ public class UserController {
         map.put("msg","error");
         return map;
     }
+
     private String uploadImage(MultipartFile file, HttpSession session) {
         String fileName = file.getOriginalFilename();
         String newFileNames = null;
