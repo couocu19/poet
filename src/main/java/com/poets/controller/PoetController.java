@@ -76,4 +76,18 @@ public class PoetController {
 
     //todo:飞花令游戏
 
+    @RequestMapping("/get_as_poet.do")
+    @ApiOperation(value = "根据年龄性别推荐诗词", notes = "根据年龄性别推荐诗词")
+    public Map<String,Object> getAsPoet(Integer age,String sex,HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        User user = (User) session.getAttribute("currentUser");
+        if(user == null){
+            map.put("msg","用户未登录");
+            return  map;
+        }
+
+        return poetService.getAsPoet(age,sex);
+
+    }
+
 }

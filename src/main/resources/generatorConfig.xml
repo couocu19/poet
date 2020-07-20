@@ -72,18 +72,21 @@
 
 
 <!--        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="remembered" domainObjectName="Remembered" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        </table>
+<!--        <table tableName="remembered" domainObjectName="Remembered" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
 <!--        <table tableName="poets" domainObjectName="Poets" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <columnOverride column="paragraphs" jdbcType="VARCHAR" />-->
+<!--&lt;!&ndash;        </table>&ndash;&gt;-->
+<!--        <table tableName="collects" domainObjectName="Collects" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--        </table>-->
-        <table tableName="collects" domainObjectName="Collects" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-        </table>
 <!--        <table tableName="clothes" domainObjectName="Clothes" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
 <!--        <table tableName="authors" domainObjectName="Authors" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <columnOverride column="desc" jdbcType="VARCHAR" />-->
 <!--        </table>-->
+
+        <table tableName="as_poet" domainObjectName="AsPoet" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
         <!-- geelynote mybatis插件的搭建 -->
     </context>
 </generatorConfiguration>

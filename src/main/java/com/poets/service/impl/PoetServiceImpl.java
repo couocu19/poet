@@ -1,13 +1,16 @@
 package com.poets.service.impl;
 
 import com.alibaba.fastjson.support.odps.udf.CodecCheck;
+import com.poets.dao.AsPoetMapper;
 import com.poets.dao.AuthorsMapper;
 import com.poets.dao.CollectsMapper;
 import com.poets.dao.PoetsMapper;
+import com.poets.pojo.AsPoet;
 import com.poets.pojo.Authors;
 import com.poets.pojo.Collects;
 import com.poets.pojo.Poets;
 import com.poets.service.PoetService;
+import com.poets.vo.AsPoetVo;
 import com.poets.vo.AuthorVo;
 import com.poets.vo.PoetVo;
 import io.swagger.models.auth.In;
@@ -33,6 +36,8 @@ public class PoetServiceImpl implements PoetService {
     private AuthorsMapper authorsMapper;
     @Autowired
     private CollectsMapper collectsMapper;
+    @Autowired
+    private AsPoetMapper asPoetMapper;
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -207,7 +212,6 @@ public class PoetServiceImpl implements PoetService {
         return map;
     }
 
-
     public Map<String,Object> getPoet(Integer id,Integer uid){
         Map<String,Object> map = new HashMap<>();
         ValueOperations<String,Poets> operations = redisTemplate.opsForValue();
@@ -228,6 +232,43 @@ public class PoetServiceImpl implements PoetService {
         PoetVo poetVo1 = assemble(poets,uid);
         map.put("poet",poetVo1);
         return map;
+    }
+
+    public Map<String,Object> getAsPoet(Integer age,String sex){
+        Map<String,Object> map = new HashMap<>();
+        Integer ranId = 0;
+        AsPoet asPoet;
+        if(age<=10){
+            ranId = getRanId(1,7);
+        }else if (age<=20){
+            if(sex.equals("女")){
+                ranId = getRanId(8,13);
+
+            }else{
+                ranId = getRanId(14,18);
+
+            }
+        }else if (age<=50){
+            if(sex.equals("女")){
+                ranId = getRanId(19,21);
+            }else{
+                ranId = getRanId(22,27);
+            }
+        }
+        asPoet = asPoetMapper.selectByPrimaryKey(ranId);
+        if(asPoet!=null){
+            map.put("msg","ok");
+            map.put("poet",asPoet);
+        }else{
+            map.put("msg","error");
+        }
+        return map;
+    }
+
+
+    private Integer getRanId(int min,int max){
+        Integer ran = (int)(min+Math.random()*(max-min));
+        return ran;
     }
 
 

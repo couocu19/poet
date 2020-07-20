@@ -7,6 +7,7 @@ public interface PoetService {
     public Map<String,Object>selectByKey(String key,Integer uid);
     public Map<String,Object> getAuthor(Integer id);
     public Map<String,Object> getPoet(Integer id,Integer uid);
+    public Map<String,Object> getAsPoet(Integer age,String sex);
 
 
 }
