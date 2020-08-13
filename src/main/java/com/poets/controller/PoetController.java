@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //todo:用户升级功能实现
@@ -36,6 +38,26 @@ public class PoetController {
         }
         int ran = AccountNumberUtil.getRanNum();
         return poetService.ranShare(ran,uid);
+
+    }
+    @RequestMapping("/ran_shareList.do")
+    @ApiOperation(value = "每日分享列表", notes = "每次刷新随机获取5首诗词")
+    public Map<String,Object> ranShareList(HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        User user = (User) session.getAttribute("currentUser");
+        if(user == null){
+            map.put("msg","need-login");
+            return map;
+        }
+
+        List<Integer> idList = new ArrayList<>();
+        Integer id = null;
+        for(int i =0;i<5;i++){
+            id = AccountNumberUtil.getRanNum();
+            idList.add(id);
+        }
+
+        return poetService.ranShareList(idList,user.getId());
 
     }
 

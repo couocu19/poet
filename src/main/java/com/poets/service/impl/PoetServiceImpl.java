@@ -58,6 +58,23 @@ public class PoetServiceImpl implements PoetService {
         return map;
     }
 
+    public Map<String,Object> ranShareList(List<Integer> list,Integer uid){
+        Map<String,Object> map = new HashMap<>();
+        List<PoetVo> poets = new ArrayList<>();
+        Poets p = null;
+        PoetVo pv = null;
+        for(int i =0;i<5;i++){
+            p = poetsMapper.selectByPrimaryKey(list.get(i));
+            pv = assemble(p,uid);
+            poets.add(pv);
+        }
+        map.put("msg","ok");
+        map.put("poets",poets);
+
+        return map;
+
+    }
+
     private PoetVo assemble(Poets poets,Integer uid){
         PoetVo poetVo = new PoetVo();
         int id = poets.getSid();
