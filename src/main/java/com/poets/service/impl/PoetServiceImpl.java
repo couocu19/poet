@@ -47,8 +47,18 @@ public class PoetServiceImpl implements PoetService {
             map.put("msg","error");
             return map;
         }
-        Poets poets = poetsMapper.selectByPrimaryKey(rid);
+        //先去redis中查询诗词的id是否存在
+        ValueOperations<String,Poets> operations = redisTemplate.opsForValue();
+        String key = CACHE_KEY_Poet+rid;
+        Poets poets =  operations.get(key);
+        //如果不存在就去数据库中查找
+        if(poets==null) {
+            poets = poetsMapper.selectByPrimaryKey(rid);
+
+        }
         if(poets!=null){
+            //存入redis中
+            operations.set(key,poets);
             map.put("msg","ok");
             PoetVo poetVo = assemble(poets,uid);
             map.put("poet",poetVo);
@@ -58,13 +68,23 @@ public class PoetServiceImpl implements PoetService {
         return map;
     }
 
+
     public Map<String,Object> ranShareList(List<Integer> list,Integer uid){
         Map<String,Object> map = new HashMap<>();
         List<PoetVo> poets = new ArrayList<>();
+        ValueOperations<String,Poets> operations = redisTemplate.opsForValue();
         Poets p = null;
         PoetVo pv = null;
+        String key = null;
         for(int i =0;i<5;i++){
-            p = poetsMapper.selectByPrimaryKey(list.get(i));
+            key = CACHE_KEY_Poet+list.get(i);
+           // p = operations.get(key);
+            //if(p == null){
+                p = poetsMapper.selectByPrimaryKey(list.get(i));
+                //存入redis中
+              //  operations.set(key,p);
+            //}
+
             pv = assemble(p,uid);
             poets.add(pv);
         }
@@ -81,15 +101,12 @@ public class PoetServiceImpl implements PoetService {
         //标记当前用户是否收藏了该诗词
         if(uid == 0){
             poetVo.setCollected(false);
-            System.out.println("ok0");
         }else {
             Collects collects = collectsMapper.selectByUidAndPid1(uid, id);
             if (collects != null) {
                 poetVo.setCollected(true);
-                System.out.println("ok1");
             } else {
                 poetVo.setCollected(false);
-                System.out.println("ok2");
             }
         }
 

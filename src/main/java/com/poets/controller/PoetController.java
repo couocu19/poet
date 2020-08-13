@@ -40,6 +40,10 @@ public class PoetController {
         return poetService.ranShare(ran,uid);
 
     }
+
+
+
+
     @RequestMapping("/ran_shareList.do")
     @ApiOperation(value = "每日分享列表", notes = "每次刷新随机获取5首诗词")
     public Map<String,Object> ranShareList(HttpSession session){
@@ -49,16 +53,13 @@ public class PoetController {
             map.put("msg","need-login");
             return map;
         }
-
         List<Integer> idList = new ArrayList<>();
         Integer id = null;
         for(int i =0;i<5;i++){
             id = AccountNumberUtil.getRanNum();
             idList.add(id);
         }
-
         return poetService.ranShareList(idList,user.getId());
-
     }
 
     @RequestMapping("/select.do")
