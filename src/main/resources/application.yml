@@ -8,6 +8,11 @@ spring:
     host: 118.31.12.175
     timeout: 10000
     port: 6379  #可不配，因为底层默认值为6379
+  security:
+    user:
+      name: coucou
+      password: 123456
+
 
 mybatis:
   typeAliasesPackage: com.poets.dao

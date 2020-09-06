@@ -78,13 +78,8 @@ public class PoetServiceImpl implements PoetService {
         String key = null;
         for(int i =0;i<5;i++){
             key = CACHE_KEY_Poet+list.get(i);
-           // p = operations.get(key);
-            //if(p == null){
-                p = poetsMapper.selectByPrimaryKey(list.get(i));
-                //存入redis中
-              //  operations.set(key,p);
-            //}
 
+                p = poetsMapper.selectByPrimaryKey(list.get(i));
             pv = assemble(p,uid);
             poets.add(pv);
         }
